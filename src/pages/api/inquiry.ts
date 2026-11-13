@@ -61,6 +61,8 @@ export const POST: APIRoute = async ({ request }) => {
       await brevo('/smtp/email', {
         sender,
         to: [{ email, name: data.name }],
+        // Until contact@desacy.com has a mailbox, client replies go to the inbox that receives inquiries.
+        replyTo: { email: env('INQUIRY_TO')!, name: sender.name },
         subject: 'Thank you for your message · Maison De Sacy',
         htmlContent: `<div style="font-family:Georgia,serif;font-size:16px;line-height:1.6;color:#151617;max-width:520px">
           <p>Dear ${esc(data.name)},</p>
