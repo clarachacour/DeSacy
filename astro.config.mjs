@@ -5,8 +5,8 @@ import sitemap from '@astrojs/sitemap';
 
 // Pages are prerendered as static HTML; only /api/inquiry runs on Vercel as a function.
 export default defineConfig({
-  // Replace with the final domain once it is bought.
-  site: 'https://desacy.com',
+  // desacy.com redirects to www in Vercel, so www is the canonical address.
+  site: 'https://www.desacy.com',
   output: 'static',
   adapter: vercel(),
   integrations: [sitemap()],
