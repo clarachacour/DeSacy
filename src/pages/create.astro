@@ -1,0 +1,106 @@
+---
+import Base from '../layouts/Base.astro';
+---
+<Base title="Create yours · De Sacy Studio" nav="studio" description="Request a personal De Sacy Studio piece: a name and the words that describe someone, their passions, or a seasonal piece.">
+  <section class="block tint page-top">
+    <div class="wrap maker">
+      <div>
+        <span class="label">De Sacy Studio</span>
+        <h1 style="margin-block:10px 18px;font-size:clamp(30px,4.4vw,48px);line-height:1.1">Create yours</h1>
+        <div class="prose" style="margin-bottom:28px"><p>Tell us about the person and the piece you imagine. We read every request personally and come back to you.</p></div>
+        <ol class="how">
+          <li><b>Tell us</b><span>Fill in the form: the collection, your description and the size.</span></li>
+          <li><b>We contact you</b><span>Within two working days, to talk it through and give you a price.</span></li>
+          <li><b>Your sketch</b><span>You approve a drawing before any steel is cut.</span></li>
+          <li><b>Made by hand</b><span>Signed and delivered in a De Sacy box with its hanging kit.</span></li>
+        </ol>
+      </div>
+      <div class="form-box">
+        <form class="inq" data-kind="create" novalidate>
+          <div class="field"><span class="lbl">Collection</span>
+            <div class="chips" id="mType" role="group" aria-label="Collection">
+              <button type="button" data-v="words" aria-pressed="true">In Words</button>
+              <button type="button" data-v="passions" aria-pressed="false">Passions</button>
+              <button type="button" data-v="seasons" aria-pressed="false">Seasons</button>
+            </div>
+            <input type="hidden" name="collection" value="words" />
+            <p class="hint" id="mHint"></p>
+          </div>
+          <div data-for="words" style="display:grid;gap:22px">
+            <div class="field"><label for="mName">Their name</label><input id="mName" name="personName" maxlength="40" placeholder="Léa" /></div>
+            <div class="field"><label for="mWords">Your words (up to eight, separated by commas)</label>
+              <input id="mWords" name="words" maxlength="200" placeholder="curious, kind, brave, funny" />
+              <span class="count" id="mCount">0 / 8</span></div>
+          </div>
+          <div class="field" data-for="passions" hidden><label for="mPassions">Their passions</label>
+            <textarea id="mPassions" name="passions" maxlength="2000" placeholder="Write freely: tennis on Sundays, the guitar, sailing, their dog Oscar…"></textarea></div>
+          <div data-for="seasons" hidden style="display:grid;gap:22px">
+            <div class="field"><label for="mSeason">Occasion</label>
+              <select id="mSeason" name="occasion"><option>Christmas</option><option>Easter</option><option>Valentine’s Day</option><option>Another occasion</option></select></div>
+            <div class="field"><label for="mIdea">Your idea</label><textarea id="mIdea" name="idea" maxlength="2000" placeholder="A wreath for the front door, a name, a date…"></textarea></div>
+          </div>
+          <div class="field"><span class="lbl">Size</span>
+            <div class="chips" id="mSize" role="group" aria-label="Size">
+              {[20, 40, 60, 80].map((s) => <button type="button" data-v={s} aria-pressed={s === 40 ? 'true' : 'false'}>{s} cm</button>)}
+            </div>
+            <input type="hidden" name="size" value="40" />
+          </div>
+          <div class="row2">
+            <div class="field"><label for="cName">Your name</label><input id="cName" name="name" autocomplete="name" maxlength="100" /></div>
+            <div class="field"><label for="cPhone">Phone</label><input id="cPhone" name="phone" type="tel" autocomplete="tel" maxlength="40" /></div>
+          </div>
+          <div class="field"><label for="cEmail">Email</label><input id="cEmail" name="email" type="email" autocomplete="email" maxlength="200" /></div>
+          <label class="check"><input type="checkbox" name="newsletter" value="yes" /> I would like to hear about new pieces and collections.</label>
+          <div class="hp" aria-hidden="true"><label>Leave empty <input name="website" tabindex="-1" autocomplete="off" /></label></div>
+          <p class="note" data-note>We will contact you to talk about finish and colours, and to confirm the price.</p>
+          <div><button class="btn" type="submit">Send my request</button></div>
+        </form>
+      </div>
+    </div>
+  </section>
+</Base>
+<script>
+  import { wireInquiryForms } from '../scripts/inquiry';
+  const HINT: Record<string, string> = {
+    words: 'The person’s name sits at the centre, surrounded by the words that describe their personality.',
+    passions: 'Each passion becomes its own image in steel, mounted at a different depth on the same sculpture.',
+    seasons: 'Christmas decorations, Easter, Valentine’s Day or another moment you want to celebrate.',
+  };
+  const form = document.querySelector<HTMLFormElement>('form[data-kind="create"]')!;
+  const typeInput = form.elements.namedItem('collection') as HTMLInputElement;
+  const sizeInput = form.elements.namedItem('size') as HTMLInputElement;
+  const words = form.querySelector<HTMLInputElement>('#mWords')!;
+  const count = form.querySelector<HTMLElement>('#mCount')!;
+  const wordList = () => words.value.split(',').map((x) => x.trim()).filter(Boolean);
+
+  function chips(id: string, input: HTMLInputElement, onChange?: () => void) {
+    const group = document.getElementById(id)!;
+    group.querySelectorAll<HTMLButtonElement>('button').forEach((b) => b.addEventListener('click', () => select(b.dataset.v!)));
+    function select(v: string) {
+      input.value = v;
+      group.querySelectorAll('button').forEach((x) => x.setAttribute('aria-pressed', String(x.dataset.v === v)));
+      onChange?.();
+    }
+    return select;
+  }
+  const retype = () => {
+    form.querySelectorAll<HTMLElement>('[data-for]').forEach((el) => (el.hidden = el.dataset.for !== typeInput.value));
+    document.getElementById('mHint')!.textContent = HINT[typeInput.value];
+  };
+  const selectType = chips('mType', typeInput, retype);
+  chips('mSize', sizeInput);
+  words.addEventListener('input', () => {
+    const n = wordList().length;
+    count.textContent = `${n} / 8`;
+    count.classList.toggle('over', n > 8);
+  });
+  const fromLink = new URLSearchParams(location.search).get('collection');
+  selectType(fromLink && fromLink in HINT ? fromLink : 'words');
+
+  wireInquiryForms((data) => {
+    if (data.collection === 'words' && !String(data.personName ?? '').trim()) return 'Add the name of the person.';
+    if (data.collection === 'words' && wordList().length > 8) return 'Keep to eight words at most.';
+    if (data.collection === 'passions' && !String(data.passions ?? '').trim()) return 'Tell us about their passions.';
+    return null;
+  });
+</script>

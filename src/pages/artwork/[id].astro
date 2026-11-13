@@ -1,0 +1,59 @@
+---
+import { Image, getImage } from 'astro:assets';
+import Base from '../../layouts/Base.astro';
+import SofaScale from '../../components/SofaScale.astro';
+import { getArtworks, dims, STATUS_LABEL } from '../../lib/site';
+import { render } from 'astro:content';
+
+export async function getStaticPaths() {
+  const works = await getArtworks();
+  return works.map((art, i) => ({
+    params: { id: art.id },
+    props: { art, prev: works[(i - 1 + works.length) % works.length], next: works[(i + 1) % works.length] },
+  }));
+}
+const { art, prev, next } = Astro.props;
+const d = art.data;
+const { Content } = await render(art);
+const facts = [
+  d.year && ['Year', d.year],
+  dims(d) && ['Size', dims(d)],
+  ['Medium', d.medium ?? 'Steel'],
+  d.layers && ['Layers', d.layers],
+  d.edition && ['Edition', d.edition],
+  ['Certificate', 'Signed certificate of authenticity'],
+  ['Price', 'On request'],
+].filter(Boolean) as [string, string | number][];
+const og = d.image ? (await getImage({ src: d.image, width: 1200, format: 'jpg' })).src : undefined;
+---
+<Base title={d.title} nav="artwork" image={og} description={`${d.title}${d.year ? `, ${d.year}` : ''}. Steel wall sculpture by De Sacy${dims(d) ? `, ${dims(d)}` : ''}.`}>
+  <div class="wrap">
+    <div class="crumbs"><a href="/artwork">← De Sacy Artwork</a><span class="label">{d.series}</span></div>
+    <div class="piece">
+      <div class="wall">
+        {d.image
+          ? <Image src={d.image} alt={d.title} widths={[600, 1000, 1400]} sizes="(max-width: 760px) 100vw, 55vw" loading="eager" class={d.cover ? 'cover' : undefined} />
+          : <div class="soon">Photo to come</div>}
+      </div>
+      <div class="piece-info">
+        {d.status && <span class={`status ${d.status}`}>{STATUS_LABEL[d.status]}</span>}
+        <h1>{d.title}</h1>
+        <dl class="facts">{facts.map(([k, v]) => <div><dt>{k}</dt><dd>{v}</dd></div>)}</dl>
+        <div class="prose"><Content /></div>
+        {d.width && d.height && <SofaScale title={d.title} width={d.width} height={d.height} />}
+        <div><a class="btn" href={`/contact?piece=${art.id}`}>Ask about this piece</a></div>
+      </div>
+    </div>
+    {d.room && (
+      <figure class="room">
+        <Image src={d.room} alt={`${d.title} on a wall`} widths={[800, 1400]} sizes="(max-width: 1240px) 100vw, 1200px" />
+        <figcaption>{d.roomCaption}</figcaption>
+      </figure>
+    )}
+    <nav class="pn" aria-label="Other pieces">
+      <a href={`/artwork/${prev.id}`}><span class="label">Previous</span><b>{prev.data.title}</b></a>
+      <a href={`/artwork/${next.id}`}><span class="label">Next</span><b>{next.data.title}</b></a>
+    </nav>
+  </div>
+  <div style="height:clamp(48px,7vw,96px)"></div>
+</Base>

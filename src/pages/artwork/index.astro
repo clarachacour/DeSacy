@@ -1,0 +1,36 @@
+---
+import { Image } from 'astro:assets';
+import Base from '../../layouts/Base.astro';
+import ArtCard from '../../components/ArtCard.astro';
+import { getArtworks } from '../../lib/site';
+import logoArtwork from '../../assets/brand/logo-artwork.png';
+
+const works = await getArtworks();
+const series = [...new Set(works.map((a) => a.data.series))];
+---
+<Base title="De Sacy Artwork" nav="artwork" description="Layered steel wall sculptures by De Sacy: unique pieces and limited editions, each with a certificate of authenticity.">
+  <section class="block page-top">
+    <div class="wrap">
+      <div class="house-head">
+        <h1 style="margin:0"><Image class="logo-lockup" src={logoArtwork} alt="De Sacy Artwork" width={180} loading="eager" /></h1>
+        <p>Large sculptures conceived as works of art, made as unique pieces or in limited editions, each with its certificate of authenticity.</p>
+      </div>
+      <div class="sec-head">
+        <div><span class="label">The collection</span><h2>Sculpture</h2></div>
+        <div class="filters" role="group" aria-label="Filter by series">
+          <button type="button" data-filter="" aria-pressed="true">All</button>
+          {series.map((s) => <button type="button" data-filter={s} aria-pressed="false">{s}</button>)}
+        </div>
+      </div>
+      <div class="grid" id="works">{works.map((art) => <ArtCard art={art} />)}</div>
+    </div>
+  </section>
+</Base>
+<script>
+  const buttons = document.querySelectorAll<HTMLButtonElement>('[data-filter]');
+  const cards = document.querySelectorAll<HTMLElement>('#works .card');
+  buttons.forEach((b) => b.addEventListener('click', () => {
+    buttons.forEach((x) => x.setAttribute('aria-pressed', String(x === b)));
+    cards.forEach((c) => (c.hidden = !!b.dataset.filter && c.dataset.series !== b.dataset.filter));
+  }));
+</script>

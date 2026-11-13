@@ -1,0 +1,44 @@
+---
+import { Image } from 'astro:assets';
+import Base from '../layouts/Base.astro';
+import ArtCard from '../components/ArtCard.astro';
+import BespokeBlock from '../components/BespokeBlock.astro';
+import { getArtworks } from '../lib/site';
+import logoArtwork from '../assets/brand/logo-artwork.png';
+import logoStudio from '../assets/brand/logo-studio.png';
+import roomDimanche from '../assets/artworks/room-un-dimanche-une-course.jpg';
+
+const featured = (await getArtworks()).filter((a) => a.data.featured).slice(0, 3);
+---
+<Base>
+  <div class="wrap intro">
+    <span class="label">Maison De Sacy · Steel Work Sculptures</span>
+    <h1>Sculpting <em>movement</em> in steel</h1>
+    <p>One workshop, two houses. Sculpture made for the great walls of a home, and personal pieces that tell the story of the people who live there.</p>
+  </div>
+  <div class="wrap doors">
+    <a class="door" href="/artwork">
+      <div class="art"><Image src={roomDimanche} alt="Un dimanche, une course above a sofa in a living room" widths={[600, 1000]} sizes="(max-width: 760px) 100vw, 600px" loading="eager" /></div>
+      <div class="txt">
+        <Image class="logo-lockup" src={logoArtwork} alt="De Sacy Artwork" width={180} />
+        <p>Wall sculpture from 80 cm to over 2 metres, as unique pieces or limited editions. Signed, and delivered with a certificate of authenticity.</p>
+        <span class="go">Enter the gallery</span>
+      </div>
+    </a>
+    <a class="door" href="/studio">
+      <div class="art"><div class="studio-door"><Image src={logoStudio} alt="" width={300} /></div></div>
+      <div class="txt">
+        <Image class="logo-lockup" src={logoStudio} alt="De Sacy Studio" width={180} />
+        <p>Pieces from 20 to 80 cm that speak of you: your passions, the words that describe you, the celebrations of the year.</p>
+        <span class="go">Discover the studio</span>
+      </div>
+    </a>
+  </div>
+  <section class="block tint">
+    <div class="wrap">
+      <div class="sec-head"><div><span class="label">New from the workshop</span><h2>Recent works</h2></div><a class="btn ghost" href="/artwork">See all works</a></div>
+      <div class="grid">{featured.map((art) => <ArtCard art={art} />)}</div>
+    </div>
+  </section>
+  <BespokeBlock onHome />
+</Base>

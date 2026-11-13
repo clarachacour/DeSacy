@@ -1,0 +1,18 @@
+---
+import Base from '../layouts/Base.astro';
+import { CONTACT } from '../lib/site';
+---
+<Base title="Privacy">
+  <section class="block page-top">
+    <div class="wrap">
+      <span class="label">Privacy</span>
+      <h1 style="margin-block:14px 22px;font-size:clamp(30px,4.4vw,48px);line-height:1.1">Your information</h1>
+      <div class="prose">
+        <p>When you send a message through this site, we receive your name, your contact details and what you wrote. We use them only to answer you and to follow up on your request.</p>
+        <p>If you tick the box to hear about new pieces, we add your email address to our mailing list. Every email includes a link to unsubscribe.</p>
+        <p>Messages are delivered by our email provider, Brevo. We do not sell or share your information with anyone else.</p>
+        <p>To see, correct or delete the information we hold about you, write to <strong>{CONTACT.email}</strong>.</p>
+      </div>
+    </div>
+  </section>
+</Base>

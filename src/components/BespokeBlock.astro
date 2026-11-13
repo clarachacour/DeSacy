@@ -1,0 +1,32 @@
+---
+interface Props { onHome?: boolean }
+const { onHome = false } = Astro.props;
+---
+<section class:list={['block', { 'page-top': !onHome }]}>
+  <div class="wrap split">
+    <div>
+      <span class="label">Bespoke</span>
+      {onHome ? <h2 style="margin-block:14px 22px">A piece made for your wall</h2> : <h1 style="margin-block:14px 22px;font-size:clamp(30px,4.4vw,48px);line-height:1.1">A piece made for your wall</h1>}
+      <div class="prose">
+        <p>Share your vision for your wall: the style or mood you are after, your preferred colours, or simply an idea. Add a photo of the wall and its measurements, and I will bring it to life through personalised sketches, created exclusively for your space.</p>
+        <p>You receive the sketches and a quote, then follow the piece through the workshop until it is delivered and hung.</p>
+        <p><strong>Lead time is usually 2 to 10 weeks.</strong> Sizes run from 40 cm to over 2 metres.</p>
+        <p>Bespoke commissions are available for architectural and private residential projects.</p>
+      </div>
+      <div class="actions">
+        <a class="btn" href="/contact?topic=commission">Start a commission</a>
+        {onHome && <a class="btn ghost" href="/bespoke#process">How a piece is made</a>}
+      </div>
+    </div>
+    <dl class="facts">
+      <div><dt>Material</dt><dd>Steel</dd></div>
+      <div><dt>Finishes</dt><dd>Powder coat, spray or hand painted, sealed with a UV-protective varnish</dd></div>
+      <div><dt>Mounting</dt><dd>Architectural standoff bolts with protective covers, leaving no mark on the wall</dd></div>
+      <div><dt>Weight</dt><dd>5 to 40 kg, engineered for residential walls</dd></div>
+      <div><dt>Editions</dt><dd>Unique works, or limited editions with artist proofs</dd></div>
+      <div><dt>Care</dt><dd>Wipe with a microfibre cloth</dd></div>
+      <div><dt>Indoor / outdoor</dt><dd>Indoor as standard; outdoor pieces for gardens and terraces on request</dd></div>
+      <div><dt>Delivery</dt><dd>In a custom-built, museum-grade plywood crate</dd></div>
+    </dl>
+  </div>
+</section>

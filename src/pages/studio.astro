@@ -1,0 +1,29 @@
+---
+import { Image } from 'astro:assets';
+import Base from '../layouts/Base.astro';
+import logoStudio from '../assets/brand/logo-studio.png';
+
+const collections = [
+  { key: 'words', name: 'In Words', text: 'A name at the centre, surrounded by the words that describe that person’s personality.' },
+  { key: 'passions', name: 'Passions', text: 'Everything someone loves to do, cut as separate images and layered at different depths on one sculpture.' },
+  { key: 'seasons', name: 'Seasons', text: 'Christmas decorations, Easter, Valentine’s Day. Pieces for the moments of the year, in limited numbers.' },
+];
+---
+<Base title="De Sacy Studio" nav="studio" description="De Sacy Studio: personal steel pieces from 20 to 80 cm. In Words, Passions and Seasons, made for one person.">
+  <section class="block tint page-top">
+    <div class="wrap">
+      <div class="house-head">
+        <h1 style="margin:0"><Image class="logo-lockup" src={logoStudio} alt="De Sacy Studio" width={180} loading="eager" /></h1>
+        <p>Pieces from 20 to 80 cm, made for one person. A gift that is only ever about them.</p>
+      </div>
+      <div class="collections">
+        {collections.map((c) => (
+          <a class="coll" href={`/create?collection=${c.key}`}>
+            <span class="label">Collection</span><h3>{c.name}</h3><p>{c.text}</p><span class="go">Create yours →</span>
+          </a>
+        ))}
+      </div>
+      <div class="band"><div><span class="label">Made for one person</span><h3>Imagine your own piece</h3></div><a class="btn" href="/create">Create yours</a></div>
+    </div>
+  </section>
+</Base>

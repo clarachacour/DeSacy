@@ -1,0 +1,21 @@
+---
+import { Image } from 'astro:assets';
+import { dims, STATUS_LABEL, type Artwork } from '../lib/site';
+
+interface Props { art: Artwork }
+const { art } = Astro.props;
+const d = art.data;
+const sub = [d.year, dims(d)].filter(Boolean).join(' · ');
+---
+<a class="card" href={`/artwork/${art.id}`} data-series={d.series}>
+  <div class="wall">
+    {d.image
+      ? <Image src={d.image} alt={d.title} widths={[400, 700]} sizes="(max-width: 520px) 100vw, (max-width: 900px) 50vw, 400px" class={d.cover ? 'cover' : undefined} />
+      : <div class="soon">Photo to come</div>}
+  </div>
+  <div class="meta">
+    <h3>{d.title}</h3>
+    {d.status && <span class={`status ${d.status}`}>{STATUS_LABEL[d.status]}</span>}
+    <span class="dims">{sub}</span>
+  </div>
+</a>

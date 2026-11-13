@@ -1,0 +1,83 @@
+---
+import { Image } from 'astro:assets';
+import monogram from '../assets/brand/monogram.png';
+import '../styles/global.css';
+
+interface Props {
+  title?: string;
+  description?: string;
+  nav?: 'artwork' | 'studio' | 'bespoke' | 'about' | 'contact';
+  image?: string;
+}
+const {
+  title,
+  description = 'De Sacy sculpts movement in steel: layered wall sculptures, unique pieces and limited editions, and personal pieces from De Sacy Studio.',
+  nav,
+  image,
+} = Astro.props;
+const fullTitle = title ? `${title} · Maison De Sacy` : 'Maison De Sacy · Steel Work Sculptures';
+const canonical = new URL(Astro.url.pathname, Astro.site);
+const ogImage = image ? new URL(image, Astro.site) : undefined;
+const links = [
+  ['artwork', '/artwork', 'Artwork'],
+  ['studio', '/studio', 'Studio'],
+  null,
+  ['bespoke', '/bespoke', 'Bespoke'],
+  ['about', '/about', 'About'],
+  ['contact', '/contact', 'Contact'],
+] as const;
+---
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{fullTitle}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonical} />
+    <link rel="icon" type="image/png" href="/favicon.png" />
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="Maison De Sacy" />
+    <meta property="og:title" content={fullTitle} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonical} />
+    {ogImage && <meta property="og:image" content={ogImage} />}
+    <meta name="twitter:card" content="summary_large_image" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz,wght@0,6..96,400;1,6..96,400&family=Jost:wght@300;400;500&display=swap" />
+  </head>
+  <body>
+    <header class="site">
+      <div class="wrap bar">
+        <a class="brand" href="/" aria-label="Maison De Sacy, home">
+          <Image src={monogram} alt="" height={88} loading="eager" />
+          <span>De Sacy</span>
+        </a>
+        <button class="menu-btn" type="button" aria-expanded="false" aria-controls="mainNav">Menu</button>
+        <nav class="main" id="mainNav" aria-label="Main">
+          {links.map((l) =>
+            l ? <a href={l[1]} aria-current={nav === l[0] ? 'page' : undefined}>{l[2]}</a> : <span class="sep" aria-hidden="true"></span>
+          )}
+        </nav>
+      </div>
+    </header>
+    <main>
+      <slot />
+    </main>
+    <footer class="site">
+      <div class="wrap foot">
+        <div><b>De Sacy Artwork</b><a href="/artwork">The collection</a><a href="/bespoke">Bespoke</a></div>
+        <div><b>De Sacy Studio</b><a href="/studio">Collections</a><a href="/create">Create yours</a></div>
+        <div><b>About</b><a href="/about">Maison De Sacy</a><a href="/contact">Contact</a></div>
+        <div><b>Follow</b><a href="https://www.instagram.com/desacy.artworks/" rel="noopener">Instagram</a><a href="/privacy">Privacy</a>© {new Date().getFullYear()} De Sacy</div>
+      </div>
+    </footer>
+    <script>
+      const head = document.querySelector('header.site')!;
+      const btn = head.querySelector('.menu-btn')!;
+      btn.addEventListener('click', () => btn.setAttribute('aria-expanded', String(head.classList.toggle('open'))));
+      addEventListener('scroll', () => head.classList.toggle('scrolled', scrollY > 8), { passive: true });
+    </script>
+  </body>
+</html>
