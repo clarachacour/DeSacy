@@ -4,7 +4,7 @@ export type Artwork = CollectionEntry<'artworks'>;
 
 export const CONTACT = {
   phones: ['+961 3 273 556', '+971 50 937 4342'],
-  email: 'michelechacour@gmail.com',
+  email: 'contact@desacy.com',
   instagram: 'desacy.artworks',
   city: 'Beirut, Lebanon',
 };
