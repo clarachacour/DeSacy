@@ -4,6 +4,11 @@ Site de De Sacy Artwork et De Sacy Studio, construit avec [Astro](https://astro.
 
 ## Ajouter ou modifier une œuvre
 
+Le plus simple : se connecter sur https://app.pagescms.org avec le compte GitHub et ouvrir le dépôt `desacy` (configuration dans `.pages.yml`).
+
+À la main :
+
+
 1. Mettre la photo dans `src/assets/artworks/` (JPG, fond blanc pour la photo principale).
 2. Créer ou modifier un fichier dans `src/content/artworks/`, par exemple `la-surfeuse.md` :
 

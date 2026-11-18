@@ -1,0 +1,73 @@
+# Admin tool configuration for Pages CMS (app.pagescms.org).
+media:
+  input: src/assets/artworks
+  output: ../../assets/artworks
+
+content:
+  - name: artworks
+    label: Artworks
+    type: collection
+    path: src/content/artworks
+    filename: "{primary}.md"
+    view:
+      fields: [title, series, year, status]
+      primary: title
+      sort: [order, title]
+    fields:
+      - name: title
+        label: Title
+        type: string
+        required: true
+      - name: series
+        label: Series
+        type: select
+        required: true
+        options:
+          values: [Life in movement, Nature]
+      - name: order
+        label: Position in the gallery (1 = first)
+        type: number
+      - name: year
+        label: Year
+        type: number
+      - name: width
+        label: Width (cm)
+        type: number
+      - name: height
+        label: Height (cm)
+        type: number
+      - name: depth
+        label: Depth (cm)
+        type: number
+      - name: layers
+        label: Number of layers
+        type: number
+      - name: medium
+        label: Medium (e.g. Powder-coated steel)
+        type: string
+      - name: edition
+        label: Edition (e.g. Edition of 20, leave empty for a unique work)
+        type: string
+      - name: status
+        label: Status (leave empty to show nothing)
+        type: select
+        options:
+          values: [available, sold, commissioned]
+      - name: image
+        label: Main photo (on a white background)
+        type: image
+      - name: cover
+        label: Main photo fills the frame (tick for a photo that is not on a white background)
+        type: boolean
+      - name: room
+        label: Photo in an interior
+        type: image
+      - name: roomCaption
+        label: Caption of the interior photo (e.g. In situ)
+        type: string
+      - name: featured
+        label: Show in Recent works on the home page
+        type: boolean
+      - name: body
+        label: Description
+        type: text
