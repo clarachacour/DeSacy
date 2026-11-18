@@ -1,0 +1,76 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>Signature Gmail · De Sacy</title>
+<style>
+  body { margin: 0; background: #f6f6f4; color: #151617; font: 300 16px/1.6 "Helvetica Neue", Helvetica, Arial, sans-serif; }
+  .page { max-width: 720px; margin: 0 auto; padding: 40px 16px 64px; }
+  h1 { font: italic 400 30px/1.2 Georgia, serif; margin: 0 0 8px; }
+  ol { padding-left: 20px; } li { margin: 6px 0; }
+  .card { background: #fff; padding: 28px; margin: 24px 0; border: 1px solid #d9dadb; }
+  button { font: 400 12px/1 "Helvetica Neue", Arial, sans-serif; letter-spacing: 2px; text-transform: uppercase; padding: 14px 22px; border: 1px solid #151617; background: #151617; color: #fff; cursor: pointer; }
+  .ok { color: #5d6166; font-size: 14px; margin-left: 12px; }
+</style>
+</head>
+<body>
+<div class="page">
+  <h1>Signature Gmail</h1>
+  <p>Cette page sert seulement à copier la signature. Elle n'est pas visible sur le site.</p>
+
+  <div class="card">
+    <!-- SIGNATURE START -->
+    <div id="signature">
+      <table cellpadding="0" cellspacing="0" border="0" style="border-collapse:collapse;font-family:Georgia,'Times New Roman',serif;color:#151617">
+        <tr>
+          <td style="padding:0 18px 0 0;vertical-align:top;border-right:1px solid #d9dadb">
+            <a href="https://www.desacy.com" style="text-decoration:none"><img src="https://www.desacy.com/email/monogram.png" width="46" height="55" alt="De Sacy" style="display:block;border:0;width:46px;height:55px"></a>
+          </td>
+          <td style="padding:0 0 0 18px;vertical-align:top">
+            <div style="font-family:Georgia,'Times New Roman',serif;font-style:italic;font-size:20px;line-height:24px;color:#151617">De Sacy</div>
+            <div style="font-family:Georgia,'Times New Roman',serif;font-size:13px;line-height:20px;color:#5d6166">Michèle Sacy Chacour</div>
+            <div style="font-family:Helvetica,Arial,sans-serif;font-size:9px;line-height:16px;letter-spacing:2px;text-transform:uppercase;color:#9a7a3f;padding-bottom:8px">SCULPTING MOVEMENT IN STEEL</div>
+            <div style="font-family:Helvetica,Arial,sans-serif;font-size:12px;line-height:19px;color:#5d6166">
+              <a href="mailto:contact@desacy.com" style="color:#151617;text-decoration:none">contact@desacy.com</a>&nbsp;&nbsp;·&nbsp;&nbsp;<a href="https://www.desacy.com" style="color:#151617;text-decoration:none">www.desacy.com</a><br>
+              +961 3 273 556&nbsp;&nbsp;·&nbsp;&nbsp;+971 50 937 4342<br>
+              <a href="https://www.instagram.com/desacy.artworks/" style="color:#151617;text-decoration:none">Instagram @desacy.artworks</a>&nbsp;&nbsp;·&nbsp;&nbsp;Beirut, Lebanon
+            </div>
+          </td>
+        </tr>
+      </table>
+    </div>
+    <!-- SIGNATURE END -->
+  </div>
+
+  <p><button id="copy" type="button">Copier la signature</button><span class="ok" id="ok"></span></p>
+
+  <ol>
+    <li>Clique sur <b>Copier la signature</b>. Si rien ne se passe, sélectionne la signature à la souris et fais <b>Ctrl + C</b> (Cmd + C sur Mac).</li>
+    <li>Dans Gmail sur ordinateur : <b>⚙️ → Voir tous les paramètres → onglet Général → Signature → Créer</b>, nomme-la « De Sacy ».</li>
+    <li>Clique dans la zone de texte et colle avec <b>Ctrl + V</b> (Cmd + V).</li>
+    <li>Juste en dessous, dans <b>Signature par défaut</b>, choisis <b>contact@desacy.com</b> et la signature « De Sacy » pour les nouveaux e-mails et pour les réponses.</li>
+    <li>Tout en bas de la page, clique sur <b>Enregistrer les modifications</b>.</li>
+  </ol>
+</div>
+<script>
+  const sig = document.getElementById('signature');
+  const ok = document.getElementById('ok');
+  document.getElementById('copy').addEventListener('click', async () => {
+    try {
+      await navigator.clipboard.write([new ClipboardItem({
+        'text/html': new Blob([sig.innerHTML], { type: 'text/html' }),
+        'text/plain': new Blob([sig.innerText], { type: 'text/plain' }),
+      })]);
+      ok.textContent = 'Copiée. Colle-la dans Gmail.';
+    } catch {
+      const range = document.createRange();
+      range.selectNodeContents(sig);
+      const sel = getSelection(); sel.removeAllRanges(); sel.addRange(range);
+      ok.textContent = 'Signature sélectionnée : fais Ctrl + C (Cmd + C sur Mac).';
+    }
+  });
+</script>
+</body>
+</html>
