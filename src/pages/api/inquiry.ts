@@ -72,7 +72,8 @@ export const POST: APIRoute = async ({ request }) => {
     }
     const listId = Number(env('BREVO_LIST_ID'));
     if (email && data.newsletter === 'yes' && listId) {
-      await brevo('/contacts', { email, attributes: { FIRSTNAME: data.name }, listIds: [listId], updateEnabled: true }).catch((e) => console.error(e));
+      // No attributes: their names differ by account language (FIRSTNAME, PRENOM…) and an unknown one makes Brevo refuse the contact.
+      await brevo('/contacts', { email, listIds: [listId], updateEnabled: true }).catch((e) => console.error('Newsletter signup failed', e));
     }
   } catch (e) {
     console.error(e);
