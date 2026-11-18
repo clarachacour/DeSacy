@@ -39,10 +39,10 @@ export function summary(kind: string, d: Record<string, string>): [string, strin
 
 export function clientEmail(name: string, kind: string, rows: [string, string][]) {
   const isStudio = kind === 'create';
-  const subject = isStudio ? 'Your De Sacy Studio request' : 'Thank you for writing to Maison De Sacy';
+  const subject = isStudio ? 'Your De Sacy Studio request' : 'Thank you for writing to De Sacy';
   const intro = isStudio
     ? 'Thank you for imagining a piece with De Sacy Studio. Your request has reached the workshop, and we will contact you within two working days to talk about finish and colours and to confirm the price. You will then receive a sketch to approve before any steel is cut.'
-    : 'Thank you for writing to Maison De Sacy. Your message has reached the workshop, and we will come back to you personally within two working days.';
+    : 'Thank you for writing to De Sacy. Your message has reached the workshop, and we will come back to you personally within two working days.';
 
   const recap = rows
     .map(([k, v]) => `
@@ -64,7 +64,7 @@ export function clientEmail(name: string, kind: string, rows: [string, string][]
       <tr><td align="center" style="padding:44px 40px 8px">
         <a href="${SITE}" style="text-decoration:none"><img src="${SITE}/email/monogram.png" width="64" height="76" alt="De Sacy" style="display:block;border:0"></a>
       </td></tr>
-      <tr><td align="center" style="padding:10px 40px 32px;font:400 11px/1 ${SANS};letter-spacing:5px;text-transform:uppercase;color:${INK}">Maison De Sacy</td></tr>
+      <tr><td align="center" style="padding:10px 40px 32px;font:400 11px/1 ${SANS};letter-spacing:5px;text-transform:uppercase;color:${INK}">De Sacy</td></tr>
       <tr><td style="padding:0 40px"><div style="border-top:1px solid ${LINE};font-size:0;line-height:0">&nbsp;</div></td></tr>
 
       <tr><td style="padding:40px 40px 0;font:italic 400 26px/1.3 ${SERIF};color:${INK}">Dear ${esc(name)},</td></tr>
@@ -92,7 +92,7 @@ export function clientEmail(name: string, kind: string, rows: [string, string][]
         </div>
       </td></tr>
     </table>
-    <div style="max-width:600px;padding:18px 16px 0;font:400 11px/1.6 ${SANS};color:${GREY};text-align:center">You receive this email because you wrote to Maison De Sacy through desacy.com.</div>
+    <div style="max-width:600px;padding:18px 16px 0;font:400 11px/1.6 ${SANS};color:${GREY};text-align:center">You receive this email because you wrote to De Sacy through desacy.com.</div>
   </td></tr>
 </table>
 </body></html>`;

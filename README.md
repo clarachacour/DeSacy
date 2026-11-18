@@ -1,4 +1,4 @@
-# Maison De Sacy – site
+# De Sacy – site
 
 Site de De Sacy Artwork et De Sacy Studio, construit avec [Astro](https://astro.build) et hébergé sur Vercel.
 

@@ -30,7 +30,7 @@ export function wireInquiryForms(extraCheck?: Check) {
         const box = document.createElement('div');
         box.className = 'sent';
         box.setAttribute('role', 'status');
-        box.textContent = `Thank you, ${data.name.trim()}. Your message has reached Maison De Sacy and we will contact you within two working days.`;
+        box.textContent = `Thank you, ${data.name.trim()}. Your message has reached De Sacy and we will contact you within two working days.`;
         form.replaceWith(box);
       } catch {
         button.disabled = false;

@@ -43,7 +43,7 @@ export const POST: APIRoute = async ({ request }) => {
     return new Response('Not configured', { status: 503 });
   }
 
-  const sender = { email: env('BREVO_SENDER_EMAIL')!, name: env('BREVO_SENDER_NAME') ?? 'Maison De Sacy' };
+  const sender = { email: env('BREVO_SENDER_EMAIL')!, name: env('BREVO_SENDER_NAME') ?? 'De Sacy' };
   const kind = raw.kind === 'create' ? 'Create yours request' : 'Website inquiry';
   const rows = FIELDS.filter(([k]) => data[k])
     .map(([k, label]) => `<tr><td style="padding:6px 16px 6px 0;color:#5d6166;vertical-align:top">${label}</td><td style="padding:6px 0;white-space:pre-wrap">${esc(data[k])}</td></tr>`)

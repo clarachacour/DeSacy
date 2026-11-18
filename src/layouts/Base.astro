@@ -15,7 +15,8 @@ const {
   nav,
   image,
 } = Astro.props;
-const fullTitle = title ? `${title} · Maison De Sacy` : 'Maison De Sacy · Steel Work Sculptures';
+// Titles that already name the brand (De Sacy Artwork, De Sacy Studio) are not suffixed again.
+const fullTitle = !title ? 'De Sacy · Steel Work Sculptures' : title.includes('De Sacy') ? title : `${title} · De Sacy`;
 const canonical = new URL(Astro.url.pathname, Astro.site);
 const ogImage = image ? new URL(image, Astro.site) : undefined;
 const links = [
@@ -37,7 +38,7 @@ const links = [
     <link rel="canonical" href={canonical} />
     <link rel="icon" type="image/png" href="/favicon.png" />
     <meta property="og:type" content="website" />
-    <meta property="og:site_name" content="Maison De Sacy" />
+    <meta property="og:site_name" content="De Sacy" />
     <meta property="og:title" content={fullTitle} />
     <meta property="og:description" content={description} />
     <meta property="og:url" content={canonical} />
@@ -50,7 +51,7 @@ const links = [
   <body>
     <header class="site">
       <div class="wrap bar">
-        <a class="brand" href="/" aria-label="Maison De Sacy, home">
+        <a class="brand" href="/" aria-label="De Sacy, home">
           <Image src={monogram} alt="" height={88} loading="eager" />
           <span>De Sacy</span>
         </a>
@@ -69,7 +70,7 @@ const links = [
       <div class="wrap foot">
         <div><b>De Sacy Artwork</b><a href="/artwork">The collection</a><a href="/bespoke">Bespoke</a></div>
         <div><b>De Sacy Studio</b><a href="/studio">Collections</a><a href="/create">Create yours</a></div>
-        <div><b>About</b><a href="/about">Maison De Sacy</a><a href="/contact">Contact</a></div>
+        <div><b>About</b><a href="/about">The artist</a><a href="/contact">Contact</a></div>
         <div><b>Follow</b><a href="https://www.instagram.com/desacy.artworks/" rel="noopener">Instagram</a><a href="/privacy">Privacy</a>© {new Date().getFullYear()} De Sacy</div>
       </div>
     </footer>
