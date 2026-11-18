@@ -8,7 +8,8 @@ export default defineConfig({
   // desacy.com redirects to www in Vercel, so www is the canonical address.
   site: 'https://www.desacy.com',
   output: 'static',
-  adapter: vercel(),
+  // Web Analytics must also be enabled in the Vercel project (Analytics tab).
+  adapter: vercel({ webAnalytics: { enabled: true } }),
   integrations: [sitemap()],
   trailingSlash: 'never',
 });
