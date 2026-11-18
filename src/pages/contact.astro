@@ -15,7 +15,7 @@ const titles = Object.fromEntries((await getArtworks()).map((a) => [a.id, a.data
           <p>
             Phone: {CONTACT.phones.map((p, i) => <>{i > 0 && ' · '}<a href={`tel:${p.replace(/\s/g, '')}`}><strong>{p}</strong></a></>)}<br />
             Email: <a href={`mailto:${CONTACT.email}`}><strong>{CONTACT.email}</strong></a><br />
-            Instagram: <a href={`https://www.instagram.com/${CONTACT.instagram}/`} rel="noopener"><strong>@{CONTACT.instagram}</strong></a><br />
+            Instagram: <a href={`https://www.instagram.com/${CONTACT.instagram.artwork}/`} rel="noopener"><strong>@{CONTACT.instagram.artwork}</strong></a> · <a href={`https://www.instagram.com/${CONTACT.instagram.studio}/`} rel="noopener"><strong>@{CONTACT.instagram.studio}</strong></a><br />
             Studio: {CONTACT.city}
           </p>
         </div>

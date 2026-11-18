@@ -88,7 +88,8 @@ export function clientEmail(name: string, kind: string, rows: [string, string][]
         <div style="border-top:1px solid ${LINE};padding-top:22px;font:400 12px/1.9 ${SANS};color:${GREY}">
           <a href="mailto:${CONTACT.email}" style="color:${INK};text-decoration:none">${CONTACT.email}</a>&nbsp;&nbsp;·&nbsp;&nbsp;<a href="${SITE}" style="color:${INK};text-decoration:none">www.desacy.com</a><br>
           ${phones}<br>
-          <a href="https://www.instagram.com/${CONTACT.instagram}/" style="color:${INK};text-decoration:none">Instagram @${CONTACT.instagram}</a>&nbsp;&nbsp;·&nbsp;&nbsp;${esc(CONTACT.city)}
+          Instagram&nbsp;<a href="https://www.instagram.com/${CONTACT.instagram.artwork}/" style="color:${INK};text-decoration:none">@${CONTACT.instagram.artwork}</a>&nbsp;&nbsp;·&nbsp;&nbsp;<a href="https://www.instagram.com/${CONTACT.instagram.studio}/" style="color:${INK};text-decoration:none">@${CONTACT.instagram.studio}</a><br>
+          ${esc(CONTACT.city)}
         </div>
       </td></tr>
     </table>
@@ -102,7 +103,7 @@ export function clientEmail(name: string, kind: string, rows: [string, string][]
     ...(rows.length ? [isStudio ? 'Your request' : 'Your message', ...rows.map(([k, v]) => `${k}: ${v}`), ''] : []),
     `In the meantime, you are welcome to discover the collection on ${SITE}/artwork`, '',
     'De Sacy', 'Michèle Sacy Chacour', 'Sculpting movement in steel', '',
-    `${CONTACT.email} · ${SITE}`, CONTACT.phones.join(' · '), `Instagram @${CONTACT.instagram} · ${CONTACT.city}`,
+    `${CONTACT.email} · ${SITE}`, CONTACT.phones.join(' · '), `Instagram @${CONTACT.instagram.artwork} · @${CONTACT.instagram.studio}`, CONTACT.city,
   ].join('\n');
 
   return { subject, html, text };

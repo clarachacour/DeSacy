@@ -1,6 +1,7 @@
 ---
 import { Image } from 'astro:assets';
 import monogram from '../assets/brand/monogram.png';
+import { CONTACT } from '../lib/contact';
 import '../styles/global.css';
 
 interface Props {
@@ -68,10 +69,10 @@ const links = [
     </main>
     <footer class="site">
       <div class="wrap foot">
-        <div><b>De Sacy Artwork</b><a href="/artwork">The collection</a><a href="/bespoke">Bespoke</a></div>
-        <div><b>De Sacy Studio</b><a href="/studio">Collections</a><a href="/create">Create yours</a></div>
+        <div><b>De Sacy Artwork</b><a href="/artwork">The collection</a><a href="/bespoke">Bespoke</a><a href={`https://www.instagram.com/${CONTACT.instagram.artwork}/`} rel="noopener">Instagram @{CONTACT.instagram.artwork}</a></div>
+        <div><b>De Sacy Studio</b><a href="/studio">Collections</a><a href="/create">Create yours</a><a href={`https://www.instagram.com/${CONTACT.instagram.studio}/`} rel="noopener">Instagram @{CONTACT.instagram.studio}</a></div>
         <div><b>About</b><a href="/about">The artist</a><a href="/contact">Contact</a></div>
-        <div><b>Follow</b><a href="https://www.instagram.com/desacy.artworks/" rel="noopener">Instagram</a><a href="/privacy">Privacy</a>© {new Date().getFullYear()} De Sacy</div>
+        <div><b>De Sacy</b><a href="/privacy">Privacy</a>© {new Date().getFullYear()} De Sacy</div>
       </div>
     </footer>
     <script>
