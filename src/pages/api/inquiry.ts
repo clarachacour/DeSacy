@@ -1,11 +1,11 @@
 import type { APIRoute } from 'astro';
+import { clientEmail, esc, summary } from '../../lib/email';
 
 // Runs on Vercel as a function so the Brevo key never reaches the browser.
 export const prerender = false;
 
 const env = (name: string) => process.env[name] ?? import.meta.env[name];
 const clean = (v: unknown, max = 5000) => String(v ?? '').trim().slice(0, max);
-const esc = (s: string) => s.replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' })[c]!);
 
 const FIELDS: [string, string][] = [
   ['name', 'Name'], ['email', 'Email'], ['phone', 'Phone'], ['topic', 'About'], ['piece', 'Piece'],
@@ -58,16 +58,15 @@ export const POST: APIRoute = async ({ request }) => {
       htmlContent: `<div style="font-family:Arial,sans-serif;font-size:14px;color:#151617"><p><b>${kind}</b></p><table>${rows}</table></div>`,
     });
     if (email) {
+      const mail = clientEmail(data.name, String(raw.kind), summary(String(raw.kind), data));
       await brevo('/smtp/email', {
         sender,
         to: [{ email, name: data.name }],
-        // Until contact@desacy.com has a mailbox, client replies go to the inbox that receives inquiries.
+        // Client replies go to the inbox that receives inquiries.
         replyTo: { email: env('INQUIRY_TO')!, name: sender.name },
-        subject: 'Thank you for your message · Maison De Sacy',
-        htmlContent: `<div style="font-family:Georgia,serif;font-size:16px;line-height:1.6;color:#151617;max-width:520px">
-          <p>Dear ${esc(data.name)},</p>
-          <p>Thank you for writing to Maison De Sacy. Your message has been received, and we will come back to you within two working days.</p>
-          <p>With warm regards,<br>De Sacy</p></div>`,
+        subject: mail.subject,
+        htmlContent: mail.html,
+        textContent: mail.text,
       });
     }
     const listId = Number(env('BREVO_LIST_ID'));
